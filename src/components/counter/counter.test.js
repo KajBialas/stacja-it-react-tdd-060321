@@ -1,42 +1,32 @@
 import { render, screen, fireEvent } from '@testing-library/react';
 import Counter from './Counter';
+import {useCounter } from '../../hooks/useCounter/useCounter';
+
+const mockIncrement = jest.fn();
+
+
+
 
 describe('Counter.js', () => {
-  it('should display init value of counter', () => {
-    render(<Counter />);
-    const valueElement = screen.getByTestId('counter-value');
-
-    expect(valueElement).toHaveTextContent('0');
+  beforeEach(() => {
+    jest.mock('../../hooks/useCounter/useCounter', () => ({
+      count: 0,
+      increment: mockIncrement,
+    }));
   });
 
-  it('should display correct value after click increment button', () => {
+  it('should display counter value', () => {
     render(<Counter />);
-    const valueElement = screen.getByTestId('counter-value');
-    const buttonElement = screen.getByTestId('counter-button-increment');
+    const counterValueElement = screen.getByTestId('counterValue');
 
-    fireEvent.click(buttonElement);
-
-    expect(valueElement).toHaveTextContent('1');
+    expect(counterValueElement).toHaveTextContent('0');
   });
 
-  it('should display correct value after click decrement button', () => {
-    render(<Counter />);
-    const valueElement = screen.getByTestId('counter-value');
-    const buttonElement = screen.getByTestId('counter-button-decrement');
-
-    fireEvent.click(buttonElement);
-    expect(valueElement.textContent).toBe('-1');
-  });
-
-  it('should display correct value after click reset button', () => {
-    render(<Counter />);
-    const valueElement = screen.getByTestId('counter-value');
-    const buttonElementIncrement = screen.getByTestId('counter-button-increment');
-    const buttonElementReset = screen.getByTestId('counter-button-reset');
-
-    fireEvent.click(buttonElementIncrement);
-    fireEvent.click(buttonElementReset);
-
-    expect(valueElement).toHaveTextContent('0');
-  });
+  // it('should call counter increment', () => {
+  //   render(<Counter />);
+  //   const counterButtonElement = screen.getByTestId('counterButton');
+  //   fireEvent.click(counterButtonElement);
+  //
+  //   expect(mockIncrement).toHaveBeenCalled();
+  // });
 });
