@@ -17,6 +17,12 @@ describe('TodosList.js', () => {
     jest.restoreAllMocks();
   });
 
+  it('should display loader', async () => {
+    render(<TodosList />);
+    const loaderElement = screen.getByTestId('todosLoader');
+    expect(loaderElement).toBeTruthy()
+  });
+
   it('should display example data from api', async () => {
     await act(async () => {
       render(<TodosList/>);
